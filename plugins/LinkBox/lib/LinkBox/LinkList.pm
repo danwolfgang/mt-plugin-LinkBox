@@ -32,7 +32,7 @@ sub links {
     my ($obj) = @_;
     return LinkBox::Link->load(
         { linkbox_list_id => $obj->id },
-        { sort            => 'id', direction => 'ascend' }
+        { sort            => 'order', direction => 'ascend' }
     );
 }
 

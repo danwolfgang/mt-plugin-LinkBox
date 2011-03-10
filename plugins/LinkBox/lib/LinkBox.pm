@@ -68,6 +68,7 @@ sub view_linkbox_list {
     }
     $param{links} = ( $id && $obj->links )
         ? objToJson(
+
         [   map {
                 my $link = $_->link;
                 $link =~ s/"/\\"/g;
@@ -75,10 +76,12 @@ sub view_linkbox_list {
                 $name =~ s/"/\\"/g;
                 my $description = $_->description;
                 $description =~ s/"/\\"/g;
+                my $order = $_->order;
                 {   id   => $_->id,
                     link => $link,
                     name => $name,
-                    desc => $description
+                    desc => $description,
+                    order => $order
                 }
                 } $obj->links
         ]
@@ -188,6 +191,9 @@ sub post_save_list {
     my $links     = $app->param('links');
     my $new_links = $app->param('new_links');
 
+use Data::Dumper;
+$app->log({ message => $links });
+
     if ($links) {
         my $links_obj = jsonToObj($links);
         require LinkBox::Link;
@@ -207,6 +213,7 @@ sub post_save_list {
                     # No remove flag, and it's dirty, so it's new or changed
                     my $l = LinkBox::Link->load( $link->{id} ) or next LINK;
                     $l->name( $link->{name} );
+                    $l->order( $link->{order} );
                     $l->link( $link->{link} );
                     $l->description( $link->{desc} );
 
@@ -215,7 +222,6 @@ sub post_save_list {
             }
         }
     }
-
     if ($new_links) {
         my $links_obj = jsonToObj($new_links);
         require LinkBox::Link;
@@ -224,6 +230,7 @@ sub post_save_list {
             my $l = LinkBox::Link->new;
             $l->linkbox_list_id( $obj->id );
             $l->name( $link->{name} );
+            $l->order( $link->{order} );
             $l->link( $link->{link} );
             $l->description( $link->{desc} );
 
@@ -235,6 +242,39 @@ sub post_save_list {
     rebuild_linkbox_template( $app, $obj->blog_id );
 
     1;
+}
+
+sub ts_change {
+    my ($cb, $param) = @_;
+    my $blog = $param->{blog} or return;
+    my $ts = $blog->template_set;
+    return undef unless $ts;
+
+    my $reg = MT->registry('template_sets')->{$ts}->{linklists};
+    foreach (keys %$reg) {
+        next if $_ eq 'plugin';
+        my $list = MT->model('linkbox_list')->load( { name => $reg->{$_}->{name}, blog_id => $blog->id });
+        if (!$list) {
+            $list = MT->model('linkbox_list')->new();
+            $list->name( $reg->{$_}->{name} );
+            $list->blog_id( $blog->id );
+            $list->save() or die $list->errstr;
+
+            my $links = $reg->{$_}->{links};
+            if ($links) {
+                foreach my $key (keys %$links) {
+                    next if $key eq 'plugin';
+                    my $l = MT->model('linkbox_link')->new();
+                    $l->linkbox_list_id( $list->id );
+                    $l->name( $links->{$key}->{label}() );
+                    $l->description( $links->{$key}->{description} );
+                    $l->link( $links->{$key}->{url} );
+                    $l->order( $links->{$key}->{order} );
+                    $l->save() or die $l->errstr;
+                }
+            }
+        }
+    }
 }
 
 1;

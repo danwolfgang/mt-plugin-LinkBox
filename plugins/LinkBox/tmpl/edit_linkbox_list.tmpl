@@ -20,8 +20,7 @@
 </mt:setvarblock>
 
 <mt:setvarblock name="html_head" append="1">
-<!--<script src="<mt:var name="static_uri">plugins/LinkBox/prototype.js" type="text/javascript"></script>-->
-<!-- script src="<mt:var name="static_uri">js/tc/json.js" type="text/javascript"></script-->
+<script type="text/javascript" src="<$mt:StaticWebPath$>jquery/ui/jquery.ui.all.js"></script>
 <script type="text/javascript">
 <!--
 
@@ -30,14 +29,37 @@ TC.attachLoadEvent(function(){buildLinkTable(links)});
 
 var next_new_id = 0;
 
+$(function() {
+	$('#linkbox-listing-table tfoot').sortable({
+		stop: function(event, ui) {
+			var id = $(ui.item).attr('id');
+			id = id.substring('link_row_'.length, id.length);
+			$('#link_edit_row_' + id).insertAfter( $(ui.item) );
+			var children = $(ui.item).parent().children('tr[id^=link_row]');
+			for (var index = 0; index < children.length; index++) {
+				var obj = $(children[index]).children('td:nth-child(2)');
+				for (var index2 = 0; index2 < links.length; index2++) {
+					var link = links[index2];
+					if (link.name == obj.text()) {
+						link.order = index;
+						link.dirty = 1;
+					}
+				}
+			}
+		}
+	});
+});
+
 function grab_new_links() {
     var new_links = new Array;
+    var order = 0;
     for (var i =  0; i > next_new_id; i--) {
         var new_link = new Object;
         new_link.id   = i;
         new_link.link = getByID('link_link_' + i).value;
         new_link.name = getByID('link_name_' + i).value;
         new_link.desc = getByID('link_desc_' + i).value;
+        new_link.order = order++;
         new_links[new_links.length] = new_link;
     }
     return new_links;

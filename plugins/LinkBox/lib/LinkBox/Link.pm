@@ -9,7 +9,8 @@ __PACKAGE__->install_properties(
             'linkbox_list_id' => 'integer not null',
             'name'            => 'string(255) not null',
             'link'            => 'string(255)',
-            'description'     => 'text'
+            'description'     => 'text',
+            'order'           => 'integer not null'
         },
         datasource  => 'linkbox_links',
         primary_key => 'id',
