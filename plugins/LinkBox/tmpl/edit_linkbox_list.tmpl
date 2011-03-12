@@ -29,7 +29,7 @@ TC.attachLoadEvent(function(){buildLinkTable(links)});
 
 var next_new_id = 0;
 
-$(function() {
+jQuery(function($) {
 	$('#linkbox-listing-table tfoot').sortable({
 		stop: function(event, ui) {
 			var id = $(ui.item).attr('id');
