@@ -244,19 +244,31 @@ $app->log({ message => $links });
     1;
 }
 
+## This is a callback handler for blog_template_set_change
+## It looks for a predefined link list and makes it available
+## when the template set has changed.
 sub ts_change {
     my ($cb, $param) = @_;
     my $blog = $param->{blog} or return;
     my $ts = $blog->template_set;
     return undef unless $ts;
 
+    my $plugin = MT->component('LinkBox');
     my $reg = MT->registry('template_sets')->{$ts}->{linklists};
     foreach (keys %$reg) {
         next if $_ eq 'plugin';
-        my $list = MT->model('linkbox_list')->load( { name => $reg->{$_}->{name}, blog_id => $blog->id });
+        my $list = MT->model('linkbox_list')->load( { name => $reg->{$_}->{label}, blog_id => $blog->id });
         if (!$list) {
+            unless ($reg->{$_}->{label}) {
+                MT->log({
+                    blog_id => $blog->id,
+                    level => MT->model('log')->INFO(),
+                    message => $plugin->translate('Link list with key [_1] missing label attribute. The config.yaml file for [_2] needs to be corrected.', $_, $ts)
+                });
+                next;
+            }
             $list = MT->model('linkbox_list')->new();
-            $list->name( $reg->{$_}->{name} );
+            $list->name( $reg->{$_}->{label} );
             $list->blog_id( $blog->id );
             $list->save() or die $list->errstr;
 
@@ -264,12 +276,29 @@ sub ts_change {
             if ($links) {
                 foreach my $key (keys %$links) {
                     next if $key eq 'plugin';
+                    my $link = $links->{$key};
+                    unless ( $link->{url} ) {
+                        MT->log({
+                            blog_id => $blog->id;
+                            level => MT->model('log')->INFO(),
+                            message => $plugin->translate('A link with the key [_1] from link set [_2] was missing its url attribute. The config.yaml file for [_3] needs to be corrected.', $key, $list->name, $ts)
+                        });
+                        next;
+                    }
+                    unless ( $link->{label} ) {
+                        MT->log({
+                            blog_id => $blog->id;
+                            level => MT->model('log')->INFO(),
+                            message => $plugin->translate('A link with the key [_1] from link set [_2] was missing its label attribute. The config.yaml file for [_3] needs to be corrected.', $key, $list->name, $ts)
+                        });
+                        next;
+                    }
                     my $l = MT->model('linkbox_link')->new();
                     $l->linkbox_list_id( $list->id );
-                    $l->name( $links->{$key}->{label}() );
-                    $l->description( $links->{$key}->{description} );
-                    $l->link( $links->{$key}->{url} );
-                    $l->order( $links->{$key}->{order} );
+                    $l->name( $link->{label}() );
+                    $l->description( $link->{description} );
+                    $l->link( $link->{url} );
+                    $l->order( $link->{order} );
                     $l->save() or die $l->errstr;
                 }
             }
