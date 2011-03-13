@@ -257,8 +257,6 @@ sub ts_change {
     my $reg = MT->registry('template_sets')->{$ts}->{linklists};
     foreach (keys %$reg) {
         next if $_ eq 'plugin';
-        my $list = MT->model('linkbox_list')->load( { name => $reg->{$_}->{label}, blog_id => $blog->id });
-        if (!$list) {
             unless ($reg->{$_}->{label}) {
                 MT->log({
                     blog_id => $blog->id,
@@ -267,8 +265,10 @@ sub ts_change {
                 });
                 next;
             }
+        my $list = MT->model('linkbox_list')->load( { name => $reg->{$_}->{label}(), blog_id => $blog->id });
+        if (!$list) {
             $list = MT->model('linkbox_list')->new();
-            $list->name( $reg->{$_}->{label} );
+            $list->name( $reg->{$_}->{label}() );
             $list->blog_id( $blog->id );
             $list->save() or die $list->errstr;
 
@@ -279,7 +279,7 @@ sub ts_change {
                     my $link = $links->{$key};
                     unless ( $link->{url} ) {
                         MT->log({
-                            blog_id => $blog->id;
+                            blog_id => $blog->id,
                             level => MT->model('log')->INFO(),
                             message => $plugin->translate('A link with the key [_1] from link set [_2] was missing its url attribute. The config.yaml file for [_3] needs to be corrected.', $key, $list->name, $ts)
                         });
@@ -287,7 +287,7 @@ sub ts_change {
                     }
                     unless ( $link->{label} ) {
                         MT->log({
-                            blog_id => $blog->id;
+                            blog_id => $blog->id,
                             level => MT->model('log')->INFO(),
                             message => $plugin->translate('A link with the key [_1] from link set [_2] was missing its label attribute. The config.yaml file for [_3] needs to be corrected.', $key, $list->name, $ts)
                         });
@@ -298,8 +298,8 @@ sub ts_change {
                     $l->name( $link->{label}() );
                     $l->description( $link->{description} );
                     $l->link( $link->{url} );
-                    $l->order( $link->{order} );
-                    $l->save() or die $l->errstr;
+                    $l->order( $link->{order} || 0 );
+                    $l->save();
                 }
             }
         }
