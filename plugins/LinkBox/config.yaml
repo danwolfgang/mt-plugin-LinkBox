@@ -1,7 +1,7 @@
 id: LinkBox
 key: LinkBox
 name: Link Box
-version: 1.50
+version: 1.75
 author_name: Apperceptive, LLC
 author_link: http://www.apperceptive.com
 description: Inserts blogroll-style linkbox into templates.

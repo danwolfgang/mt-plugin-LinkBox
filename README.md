@@ -27,6 +27,41 @@ Manage and publish multiple blogrolls (lists of  links).
 
 ## Documentation
 
+### Deploying Link Boxes with Themes
+
+The following YAML structure is an example of a link box named "Blogroll" that is bundled with a hypothetical theme named BloggerTemplates.
+
+    template_sets:
+        blogger_templates:
+            label: BloggerTemplates
+            linklists:
+                blogroll:
+                    label: Blogroll
+                    links:
+                        google:
+                            label: Google
+                            url: http://www.google.com
+                            description: Big search engine.
+                            order: 1
+                        slashdot:
+                            label: Slashdot
+                            url: http://slashdot.org
+                            description: Old as the hills tech news site.
+                            order: 3
+                        melody:
+                            label: Open Melody Software Group
+                            url: http://openmelody.org
+                            description: The OMSG website
+                            order: 2
+
+The following simple facts should clarify how LinkBox handles this YAML:
+
+1. A link box does not need any links under it.
+2. A link only needs two attributes: label and url.
+3. The order attribute controls the actual order in which LinkBox will display the content.
+4. The default value for order is "0" which means that links without an order attribute will take precedent over this with one.
+5. LinkBox will not alter or remove an existing link list with the same name.
+
 ### Container Tags
 
 * `mt:LinkBoxes` - Loops over linkboxes for the blog and name provided
