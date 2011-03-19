@@ -191,9 +191,6 @@ sub post_save_list {
     my $links     = $app->param('links');
     my $new_links = $app->param('new_links');
 
-use Data::Dumper;
-$app->log({ message => $links });
-
     if ($links) {
         my $links_obj = jsonToObj($links);
         require LinkBox::Link;

@@ -11,6 +11,7 @@ __PACKAGE__->install_properties(
             'id'      => 'integer not null primary key auto_increment',
             'blog_id' => 'integer not null',
             'name'    => 'string(255) not null',
+            'order'   => 'integer not null'
         },
 
         indexes => {
@@ -19,6 +20,7 @@ __PACKAGE__->install_properties(
             'name'       => 1,
             'created_on' => 1,
         },
+        defaults => { 'order' => 0 },
 
         audit         => 1,
         datasource    => 'linkbox_list',

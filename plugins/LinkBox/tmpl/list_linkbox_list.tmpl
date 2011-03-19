@@ -1,5 +1,15 @@
 <mt:setvarblock name="page_title"><__trans phrase="Manage Link Lists"></mt:setvarblock>
 
+<mt:SetVarBlock name="html_head" append="1">
+jQuery(function($)) {
+	$('#linkbox_list-listing-table tbody').sortable({
+		stop: function(event, ui) {
+		
+		}
+	});
+});
+</mt:SetVarBlock>
+
 <mt:setvarblock name="action_buttons">
                 <a href="javascript:void(0)"
                     onclick="doRemoveItems(getByID('<$mt:var name="object_type"$>-listing-form'), '<mt:var name="object_label" lower_case="1" escape="js">', '<mt:var name="object_label_plural" lower_case="1" escape="js">'); return false;"

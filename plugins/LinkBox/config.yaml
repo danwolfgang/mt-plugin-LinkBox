@@ -6,7 +6,7 @@ author_name: Apperceptive, LLC
 author_link: http://www.apperceptive.com
 description: Inserts blogroll-style linkbox into templates.
 blog_config_template: blog_config.tmpl
-schema_version: 0.44
+schema_version: 1.00
 
 settings:
     liststyle:

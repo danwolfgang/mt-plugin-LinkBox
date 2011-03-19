@@ -21,6 +21,7 @@ __PACKAGE__->install_properties(
         defaults => {
             link        => '',
             description => '',
+            order       => 0
         },
     }
 );
