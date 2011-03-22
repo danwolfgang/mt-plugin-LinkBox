@@ -1,8 +1,8 @@
 id: LinkBox
 key: LinkBox
 name: Link Box
-version: 1.75
-author_name: Apperceptive, LLC
+version: 2.0
+author_name: Apperceptive, LLC; Mike Thomsen for the Melody Project
 author_link: http://www.apperceptive.com
 description: Inserts blogroll-style linkbox into templates.
 blog_config_template: blog_config.tmpl
@@ -29,7 +29,7 @@ applications:
         methods:
             linkbox_list: $LinkBox::LinkBox::list
             linkbox_widget: $LinkBox::LinkBox::widget
-            linkbox_save: $LinkBox::LinkBox::save
+            linkbox_save_list_order: $LinkBox::LinkBox::save_list_order
             linkbox_del: $LinkBox::LinkBox::del
             list_linkbox_list: $LinkBox::LinkBox::list_lists
             view_linkbox_list: $LinkBox::LinkBox::view_linkbox_list

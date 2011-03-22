@@ -14,9 +14,23 @@ sub plugin {
 sub list_lists {
     my $app     = shift;
     my $blog_id = $app->param('blog_id');
+    my @ll = MT->model('linkbox_list')->load({ blog_id => $blog_id },
+                                             {
+                                                 'sort' => 'order',
+                                                 'direction' => 'ascend'
+                                             });
+    my $lists = {};
+    foreach (@ll) {
+    	$lists->{ $_->id } = $_->order;
+    }
+    
+    use JSON;
+    my $list_order_json = JSON::to_json( $lists );
+    
     $app->listing(
         {   type  => 'linkbox_list',
             terms => { blog_id => $blog_id, },
+            params => { order_json => $list_order_json },
             args  => {
                 sort      => 'name',
                 direction => 'ascend'
@@ -301,6 +315,20 @@ sub ts_change {
             }
         }
     }
+}
+
+sub save_list_order {
+    my ($app) = @_;
+    my $q = $app->query;
+    my $json = $q->param('json');
+    
+    use JSON;
+    my $obj = JSON::from_json( $json );
+    my @lls = MT->model('linkbox_list')->load({ blog_id => $app->blog->id });
+    foreach (@lls) {
+        $_->order( $obj->{$_->id} );
+        $_->save || $app->log({message => $_->errstr});
+    }    
 }
 
 1;
