@@ -1,7 +1,7 @@
 id: LinkBox
 key: LinkBox
 name: Link Box
-version: 2.0
+version: 2.0.1
 author_name: Apperceptive, LLC; Mike Thomsen for the Melody Project
 author_link: http://www.apperceptive.com
 description: Inserts blogroll-style linkbox into templates.
