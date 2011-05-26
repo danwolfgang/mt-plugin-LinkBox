@@ -1,20 +1,8 @@
-# LinkBox, a plugin for Melody
-
-Authors: Six Apart, Ltd., OpenMelody Software Group
-Copyright:
-* 2009 Six Apart, Ltd.
-* 2011 OpenMelody Software Group
-License: [Artistic License 2.0](http://www.opensource.org/licenses/artistic-license-2.0.php)
-
+# LinkBox, a plugin for Melody and Movable Type
 
 ## Overview
 
-Manage and publish multiple blogrolls (lists of  links).
-
-
-## Requirements
-
-* Melody 1.0 or newer
+Manage and publish multiple blogrolls (lists of links).
 
 
 ## Features
@@ -25,6 +13,12 @@ Manage and publish multiple blogrolls (lists of  links).
     * list style: "ul" or "ol"
     * link list sort order: order added or alphabetical
 * Tags to output LinkBoxes
+
+
+## Requirements
+
+* Melody 1.0 or newer
+* Movable Type 4.x
 
 
 ## Documentation
@@ -144,3 +138,18 @@ Should look like this when installed:
 ## Support
 
 This plugin is not an official Six Apart, Ltd. release, and as such support from Six Apart, Ltd. for this plugin is not available.
+
+## Authors
+
+Six Apart, Ltd., OpenMelody Software Group
+
+## Copyright
+
+* 2009 Six Apart, Ltd.
+* 2011 OpenMelody Software Group
+
+## License
+
+[Artistic License 2.0](http://www.opensource.org/licenses/artistic-license-2.0.php)
+
+
