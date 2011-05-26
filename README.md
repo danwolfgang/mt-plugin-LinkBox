@@ -61,6 +61,12 @@ The following simple facts should clarify how LinkBox handles this YAML:
 ### Container Tags
 
 * `mt:LinkBoxes` - Loops over linkboxes for the blog and name provided
+
+    Attributes:
+    
+    * `id` - optional id of a single LinkBox
+    * `name` - optional name of a single LinkBox
+
 * `mt:LinkBoxLinks` - Loops over links for the linkbox in context
 
 ### Function Tags
@@ -132,7 +138,7 @@ Should look like this when installed:
 
 ## Desired Features
 
-* add `mt:LinkBox` attributes to `mt:LinkBoxes` tag
+* add further `mt:LinkBox` attributes to `mt:LinkBoxes` tag
 
 
 ## Support

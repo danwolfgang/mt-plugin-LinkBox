@@ -96,11 +96,21 @@ sub _hdlr_linkbox_link_description {
 
 sub _hdlr_link_boxes {
     my ( $ctx, $args, $cond ) = @_;
+    my $linkbox_id   = $args->{id} if $args->{id};
+    my $linkbox_name = $args->{name} if $args->{name};
+    my $blog_id      = $ctx->stash('blog_id');
 
-    my $blog_id = $ctx->stash('blog_id');
-    require LinkBox::LinkList;
-    my @lists = LinkBox::LinkList->load( { blog_id => $blog_id },
+    my @lists = MT->model('linkbox_list')->load( { blog_id => $blog_id },
         { sort => 'name', direction => 'ascend' } );
+
+    if ($linkbox_id) {
+        @lists = MT->model('linkbox_list')->load ({ id => $linkbox_id });
+    } elsif ($linkbox_name) {
+        @lists = MT->model('linkbox_list')->load ({ name => $linkbox_name });
+    } else {
+        @lists = MT->model('linkbox_list')->load( { blog_id => $blog_id },
+                { sort => 'name', direction => 'ascend' } );
+    }
 
     my $res = '';
     for my $list (@lists) {
