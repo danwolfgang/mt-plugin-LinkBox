@@ -81,7 +81,7 @@ sub view_linkbox_list {
         $param{object_label_plural} = $class->class_label_plural;
     }
     $param{links} = ( $id && $obj->links )
-        ? objToJson(
+        ? to_json(
 
         [   map {
                 my $link = $_->link;
