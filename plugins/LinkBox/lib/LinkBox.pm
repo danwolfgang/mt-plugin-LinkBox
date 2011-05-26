@@ -21,7 +21,7 @@ sub list_lists {
                                              });
     my $lists = {};
     foreach (@ll) {
-    	$lists->{ $_->id } = $_->order;
+        $lists->{ $_->id } = $_->order;
     }
     
     use JSON;

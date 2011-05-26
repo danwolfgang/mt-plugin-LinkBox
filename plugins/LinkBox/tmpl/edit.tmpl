@@ -11,17 +11,17 @@
 </thead>
 <tbody>
 <form name="editform">
-	<input type="hidden" name="__mode" value="linkbox_save">
-	<input type="hidden" name="blog_id" value="<TMPL_VAR NAME=BLOG_ID>">
+    <input type="hidden" name="__mode" value="linkbox_save">
+    <input type="hidden" name="blog_id" value="<TMPL_VAR NAME=BLOG_ID>">
 <TMPL_IF NAME="LINKS_LOOP">
-	<TMPL_LOOP NAME="LINKS_LOOP">
-	<tr class="<TMPL_IF __ODD__>odd<TMPL_ELSE>even</TMPL_IF>">
-		<td><input type="text" name="link" value="<TMPL_VAR NAME=LINK>"></td><td><input type="text" name="name" value="<TMPL_VAR NAME=NAME>"></td><td><input type="text" name="desc" value="<TMPL_VAR NAME=DESC>"></td></tr>
-	<input type="hidden" name="id" value="<TMPL_VAR NAME=ID>">
-	</TMPL_LOOP>
+    <TMPL_LOOP NAME="LINKS_LOOP">
+    <tr class="<TMPL_IF __ODD__>odd<TMPL_ELSE>even</TMPL_IF>">
+        <td><input type="text" name="link" value="<TMPL_VAR NAME=LINK>"></td><td><input type="text" name="name" value="<TMPL_VAR NAME=NAME>"></td><td><input type="text" name="desc" value="<TMPL_VAR NAME=DESC>"></td></tr>
+    <input type="hidden" name="id" value="<TMPL_VAR NAME=ID>">
+    </TMPL_LOOP>
 <TMPL_ELSE>
 <tr>
-	<td><input type="text" name="link" value="<TMPL_VAR NAME=LINK>"></td><td><input type="text" name="name" value="<TMPL_VAR NAME=NAME>"></td><td><input type="text" name="desc" value="<TMPL_VAR NAME=DESC>"></td>
+    <td><input type="text" name="link" value="<TMPL_VAR NAME=LINK>"></td><td><input type="text" name="name" value="<TMPL_VAR NAME=NAME>"></td><td><input type="text" name="desc" value="<TMPL_VAR NAME=DESC>"></td>
 </tr>
 <input type="hidden" name="id" value="<TMPL_VAR NAME=ID>">
 

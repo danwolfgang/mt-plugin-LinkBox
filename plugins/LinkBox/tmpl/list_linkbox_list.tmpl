@@ -5,33 +5,33 @@
 var orderJson = <$mt:var name="order_json"$>
 
 jQuery(function($) {
-	var x = $('#linkbox_list-listing-table tbody').sortable({
-		stop: function(event, ui) {
-			var id = $(ui.item).attr('id');
-			id = id.substring(0, id.indexOf('_'));
-			
-			$(ui.item).parent().find('tr').each(function(i) {
-				$(this)
-					.removeClass('odd')
-					.removeClass('even')
-					.addClass( i % 2 == 0 ? 'even' : 'odd');
-				var thisId = $(this).attr('id');
-				thisId = thisId.substring(0, thisId.indexOf('_'));
-				orderJson[thisId] = i;
-			});
-			
-			$.ajax({
-				url: '<$mt:AdminCGIPath$><$mt:AdminScript$>',
-				dataType: 'json',
-				type: 'post',
-				data: {
-					'__mode': 'linkbox_save_list_order',
-					'blog_id': <$mt:var name="blog_id"$>,
-					'json': $.toJSON( orderJson )
-				}
-			})
-		}
-	});
+    var x = $('#linkbox_list-listing-table tbody').sortable({
+        stop: function(event, ui) {
+            var id = $(ui.item).attr('id');
+            id = id.substring(0, id.indexOf('_'));
+            
+            $(ui.item).parent().find('tr').each(function(i) {
+                $(this)
+                    .removeClass('odd')
+                    .removeClass('even')
+                    .addClass( i % 2 == 0 ? 'even' : 'odd');
+                var thisId = $(this).attr('id');
+                thisId = thisId.substring(0, thisId.indexOf('_'));
+                orderJson[thisId] = i;
+            });
+            
+            $.ajax({
+                url: '<$mt:AdminCGIPath$><$mt:AdminScript$>',
+                dataType: 'json',
+                type: 'post',
+                data: {
+                    '__mode': 'linkbox_save_list_order',
+                    'blog_id': <$mt:var name="blog_id"$>,
+                    'json': $.toJSON( orderJson )
+                }
+            })
+        }
+    });
 });
 </script>
 </mt:SetVarBlock>
