@@ -15,7 +15,6 @@ __PACKAGE__->install_properties(
         datasource  => 'linkbox_links',
         primary_key => 'id',
         indexes     => {
-            id              => 1,
             linkbox_list_id => 1,
         },
         defaults => {

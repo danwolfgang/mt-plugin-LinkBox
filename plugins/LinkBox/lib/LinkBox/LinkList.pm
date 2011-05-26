@@ -15,13 +15,11 @@ __PACKAGE__->install_properties(
         },
 
         indexes => {
-            'id'         => 1,
             'blog_id'    => 1,
             'name'       => 1,
             'created_on' => 1,
         },
         defaults => { 'order' => 0 },
-
         audit         => 1,
         datasource    => 'linkbox_list',
         primary_key   => 'id',
